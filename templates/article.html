@@ -1,5 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>{{ id }}</h1>
+    <h1>{{ article.get("title") }}</h1>
+    <small>Written by {{ article.get("author") }} on {{ article.get("posted_date" )}}</small>
+    <hr>
+    <div>
+        {{ article.get("body") | safe }}
+    </div>
 {% endblock %}

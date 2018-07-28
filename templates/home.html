@@ -4,5 +4,9 @@
     <div class="jumbotron text-center">
         <h1>Welcome to Articl.io</h1>
         <p class="lead">Read articles, gain knowledge and add your own articles! It's all about sharing your story.</p>
+        {% if session.logged_in == NULL %}
+            <a href="/register" class="btn btn-primary btn-lg">Register</a>
+            <a href="/login" class="btn btn-success btn-lg">Login</a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,5 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>My Dashboard | <small>Welcome, {{ session.username }}</small></h1>
+    <div>
+        <div style="display: inline-block;"><h1>My Dashboard</h1></div>
+        <div style="display: inline-block; float: right;"><h2 style="color: darkslategrey;">Welcome, {{ session.username }}</h2></div>
+    </div>
+    <br>
+    <a href="/users/articles" class="btn btn-success">Add Article</a>
+    <hr>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for article in articles %}
+        <tr>
+            <td>{{ article.get("title") }}</td>
+            <td>{{ article.get("author") }}</td>
+            <td>{{ article.get("posted_date") }}</td>
+            <td><a href="users/articles/{{ article.id }}" class="btn btn-primary pull-right">Edit</a></td>
+            <td><a href="#" class="btn btn-danger">Delete</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+
 {% endblock %}

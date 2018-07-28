@@ -9,8 +9,8 @@ from functools import wraps
 import datetime
 import uuid
 
-from data import Articles
 from registerform import RegisterForm
+from articleform import ArticleForm
 
 
 # Creating an instance of the Flask class
@@ -27,9 +27,6 @@ db = firestore.client()
 # Firestore Config
 fs_user_collection = db.collection('users')
 fs_articles_collection = db.collection('articles')
-
-# Assign Articles function to variable
-Articles = Articles()
 
 
 # Define routes
@@ -49,13 +46,22 @@ def about():
 # Display all articles route
 @app.route('/articles')
 def articles():
-    return render_template('articles.html', articles=Articles)
+    db_articles = fs_articles_collection.get()
+    if db_articles is None:
+        msg = 'No articles found'
+        return render_template('articles.html', msg=msg)
+    else:
+        return render_template('articles.html', articles=db_articles)
 
 
 # Display single article Route
-@app.route('/article/<article_id>/')
+@app.route('/articles/<article_id>/')
 def article(article_id):
-    return render_template('article.html', id=article_id)
+    db_articles = fs_articles_collection.get()
+    for db_article in db_articles:
+        if db_article.id == article_id:
+            return render_template('article.html', article=db_article)
+    return render_template('article.html')
 
 
 # Submit Register Route
@@ -118,6 +124,7 @@ def login():
                     # Initialize session
                     session['logged_in'] = True
                     session['username'] = db_username
+                    session['name'] = user_doc.get("name")
                     # Display flash message
                     flash('You have successfully logged in!', 'success')
                     # Redirect to the home page
@@ -161,10 +168,42 @@ def logout():
 
 
 # Render dashboard route
-@app.route('/dashboard')
+@app.route('/users/dashboard')
 @is_logged_in
 def dashboard():
-    return render_template('dashboard.html')
+    db_articles = fs_articles_collection.get()
+    # Verify if the variable is set
+    if db_articles is None:
+        msg = 'No articles found'
+        return render_template('dashboard.html', msg=msg)
+    else:
+        return render_template('dashboard.html', articles=db_articles)
+
+
+# Add article route
+@app.route('/users/articles', methods=['GET', 'POST'])
+@is_logged_in
+def add_article():
+    form = ArticleForm(request.form)
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        body = form.body.data
+
+        # Create a new document with UUID in the articles collection
+        new_article = fs_articles_collection.document(str(uuid.uuid4()))
+        # Create a new article document and store it to the articles collection
+        new_article.set({
+            'title': title,
+            'body': body,
+            'author': session['name'],
+            'posted_date': datetime.datetime.utcnow()
+        })
+
+        # Display flash message
+        flash('Your article has been successfully posted!', 'success')
+        # Redirect to the login page
+        return redirect(url_for('dashboard'))
+    return render_template('add_article.html', form=form)
 
 
 if __name__ == '__main__':
