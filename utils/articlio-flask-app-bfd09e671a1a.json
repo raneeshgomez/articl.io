@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "articlio-flask-app",
+  "private_key_id": "bfd09e671a1a044310c0404072521058a8465f25",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDJSLO+sXBfEBPG\nMuLcwg5qqLPI5uPwZX5zcSZVBTmNPerUel6at5hY+lIW3M71VrUmmXlKxn592KXY\n0dYC9XjrAM6wi8u0SuwpJwrDhz373Za0yZFT6XVlZJ9q2FVZD5OID2jrmmapfo6l\nsg4g6yv2P95HAYfdTpOz0r8egBk/IUCyVCPtWdqDKSMUOrhhasHD1AQmHEYpuzG6\ng9RD8RqlFYIQy+J2A9RWtFmnkhUlQfuVEk9s+g9Zd826M0rrczYqYQw6VFKYmUaB\nFieWYj9Lh1KoMaddel3VZJQa225t9TrexGzKWycoIn0Sx2vBvSBbOzaPslKv8sIo\nsIS+noOhAgMBAAECggEAIG87K5jLGz5reU4c2WbZzN0Xb2GpTEUGjdKnUx7u6bAX\nBZscYIECJyBbFv0Iymbo9OnZLi/zFRNSkjAp9Lsae3/bTn6QWiKSkIUOinhiCBJq\nZQJwDR37AVYoDB8FDb9hThTxmrl8HobatJ+PAEX1BQ7Aoh+AhaxSR7FHg8Ivj0ji\nvGg1HAc35PK1F8htk6tdEhVgT9IZ2MMPlCN4ipAkQGhfllTBWPG3ei2Abj//belQ\ncNuLgfW9iSSoveokUmGoUybuRt4WPoFYumbMnE/7wfatFr/7iuOqalOEmDCMTxZB\nnHhyXeYW9gQO0hX0+cd2F9q2x6RHRk3oPerFj9aPiwKBgQDsf1L8l8OmDCOK9rJx\nGl9lOt1RbFSK9MGm3ImXf+88VvOdtjlqcUmJY+jUhpsdFPi8vvd8bd0x3wdtewkD\nQ8I0d5grvAmwJUOK2Wm/Yi7eF1DHhDagl+CGHTmBIrakBQw85eCUTVqFzAV1vV4z\nodq/yMGBrqWvfcpQ7fdttiZmiwKBgQDZ4f3VCqYlPMSBYJVMpQRi4zP+qB9fHh4T\n8lnggKYCs8j/1qSPg/sRPp9KCNis2FsHrutKUvgtE8vzPnojFiW2FROs0/OOpKbN\nZME3x30I/cGzBOz+67o4u7JtXCjmS86QdO5lAbAqL+iyGQsjKYip0lf+7XWg5Bi+\ntXGzLjvwAwKBgAhamwjXJ48XAK5o9nauUs5VnPnCVN4vtSN6yNV0LHQ6MhLRHAgZ\nhlp3EANp2dLWKc8pA77+doDLewyv+uqFmzeVPefVlZYGSvN9qJGdG0C3HCBgGDnm\nA4VZRO291yvGDd+c0ykJ7nepdEvra4dxYTPDGKrHC40+aUYgkcvrUkHvAoGAAREz\nThTURYBrsfqIIKz6PYXBXnDyXmPmX9CjEg9vQLoitOYXPkC2PRpia1lpvkb9Ayef\nLWkEoCvlptZagMt9+ctWolUTb1JtIrpom95VRXMAvOC8TG9ZJSf+Mrzt0lrysxBv\njn0YoMxFRoIK5OwyKCrIlY4SMmyLlnuLCAak8oMCgYBc0cHIHG5qETw78AcqfR/1\n7zsY58q7PfPsOMeGuxJM9fenCH0DMVkSH1+YkNQ9e2zWelI2l5E3MH1K7tr5bXvn\nP9D7E4WJxtetkyweSw4QwpYAAvRyDQAGxbQWj1PFUoLsBmKZAd9cUMhy/w7m36Jq\niOJ0ANBVLfriHLU4AX07Tg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "articlio-flask-app@appspot.gserviceaccount.com",
+  "client_id": "107917611191481981818",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/articlio-flask-app%40appspot.gserviceaccount.com"
+}
