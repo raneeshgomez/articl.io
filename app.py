@@ -217,13 +217,13 @@ def add_article():
 
         # Display flash message
         flash('Your article has been successfully posted!', 'success')
-        # Redirect to the login page
+        # Redirect to the dashboard page
         return redirect(url_for('dashboard'))
     return render_template('add_article.html', form=form, title=title)
 
 
 # Edit article route
-@app.route('/users/articles/<string:article_id>/', methods=['GET', 'POST'])
+@app.route('/users/articles/<string:article_id>/', methods=['GET', 'POST', 'DELETE'])
 @is_logged_in
 def edit_article(article_id):
     title = 'Edit Article'
@@ -247,7 +247,12 @@ def edit_article(article_id):
 
         # Display flash message
         flash('Your article has been updated!', 'success')
-        # Redirect to the login page
+        # Redirect to the dashboard page
+        return redirect(url_for('dashboard'))
+    elif request.method == 'DELETE':
+        fs_articles_collection.document(article_id).delete()
+        # Display flash message
+        flash('Article has been deleted', 'success')
         return redirect(url_for('dashboard'))
     return render_template('edit_article.html', form=form, title=title)
 

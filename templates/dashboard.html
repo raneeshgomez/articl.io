@@ -22,7 +22,7 @@
             <td>{{ article.get("author") }}</td>
             <td>{{ article.get("posted_date") }}</td>
             <td><a href="/users/articles/{{ article.id }}" class="btn btn-primary pull-right">Edit</a></td>
-            <td><a href="#" class="btn btn-danger">Delete</a></td>
+            <td><a href="#" class="btn btn-danger del-btn" data-id="{{ article.id }}">Delete</a></td>
         </tr>
     {% endfor %}
     </table>
