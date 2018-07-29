@@ -253,7 +253,6 @@ def edit_article(article_id):
         fs_articles_collection.document(article_id).delete()
         # Display flash message
         flash('Article has been deleted', 'success')
-        return redirect(url_for('dashboard'))
     return render_template('edit_article.html', form=form, title=title)
 
 

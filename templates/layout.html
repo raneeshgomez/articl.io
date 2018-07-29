@@ -26,7 +26,10 @@
                 // Sending an AJAX DELETE request to the DELETE route
                 $.ajax({
                     type: 'DELETE',
-                    url: '/users/articles/' + id + '/'
+                    url: '/users/articles/' + id + '/',
+                    success: res => {
+                        window.location.replace('/users/dashboard');
+                    }
                 });
             });
         });
