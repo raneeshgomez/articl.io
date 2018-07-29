@@ -34,39 +34,44 @@ fs_articles_collection = db.collection('articles')
 # Render home route
 @app.route('/')
 def home():
-    return render_template('home.html')
+    title = 'Welcome'
+    return render_template('home.html', title=title)
 
 
 # Render about page route
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    title = 'About'
+    return render_template('about.html', title=title)
 
 
 # Display all articles route
 @app.route('/articles')
 def articles():
+    title = 'Articles'
     db_articles = fs_articles_collection.get()
     if db_articles is None:
         msg = 'No articles found'
-        return render_template('articles.html', msg=msg)
+        return render_template('articles.html', msg=msg, title=title)
     else:
-        return render_template('articles.html', articles=db_articles)
+        return render_template('articles.html', articles=db_articles, title=title)
 
 
 # Display single article Route
 @app.route('/articles/<article_id>/')
 def article(article_id):
+    title = 'View Article'
     db_articles = fs_articles_collection.get()
     for db_article in db_articles:
         if db_article.id == article_id:
-            return render_template('article.html', article=db_article)
-    return render_template('article.html')
+            return render_template('article.html', article=db_article, title=title)
+    return render_template('article.html', title=title)
 
 
 # Submit Register Route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    title = 'Register'
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
         name = form.name.data
@@ -97,12 +102,13 @@ def register():
         flash('You have successfully been registered. Have fun!', 'success')
         # Redirect to the login page
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form, title=title)
 
 
 # Submit login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    title = 'Login'
     if request.method == 'POST':
         # Get form fields
         username = request.form['username']
@@ -125,6 +131,7 @@ def login():
                     session['logged_in'] = True
                     session['username'] = db_username
                     session['name'] = user_doc.get("name")
+                    session['userid'] = user_doc.id
                     # Display flash message
                     flash('You have successfully logged in!', 'success')
                     # Redirect to the home page
@@ -132,7 +139,7 @@ def login():
                 else:
                     # Display flash message
                     flash('Invalid Password', 'danger')
-                    return render_template('login.html')
+                    return render_template('login.html', title=title)
             else:
                 continue
 
@@ -140,9 +147,9 @@ def login():
         if db_username == 'null':
             # Display flash message
             flash('Username not found', 'danger')
-            return render_template('login.html')
+            return render_template('login.html', title=title)
 
-    return render_template('login.html')
+    return render_template('login.html', title=title)
 
 
 # Check if user is logged in
@@ -171,19 +178,26 @@ def logout():
 @app.route('/users/dashboard')
 @is_logged_in
 def dashboard():
+    title = 'My Dashboard'
+    user_articles = []
     db_articles = fs_articles_collection.get()
     # Verify if the variable is set
     if db_articles is None:
         msg = 'No articles found'
-        return render_template('dashboard.html', msg=msg)
+        return render_template('dashboard.html', msg=msg, title=title)
     else:
-        return render_template('dashboard.html', articles=db_articles)
+        for db_article in db_articles:
+            # Get only the articles that belong to the current user session
+            if db_article.get("user_id") == session['userid']:
+                user_articles.append(db_article)
+        return render_template('dashboard.html', articles=user_articles, title=title)
 
 
 # Add article route
 @app.route('/users/articles', methods=['GET', 'POST'])
 @is_logged_in
 def add_article():
+    title = 'Add Article'
     form = ArticleForm(request.form)
     if request.method == 'POST' and form.validate():
         title = form.title.data
@@ -193,6 +207,8 @@ def add_article():
         new_article = fs_articles_collection.document(str(uuid.uuid4()))
         # Create a new article document and store it to the articles collection
         new_article.set({
+            'user_id': session['userid'],
+            'article_id': new_article.id,
             'title': title,
             'body': body,
             'author': session['name'],
@@ -203,7 +219,37 @@ def add_article():
         flash('Your article has been successfully posted!', 'success')
         # Redirect to the login page
         return redirect(url_for('dashboard'))
-    return render_template('add_article.html', form=form)
+    return render_template('add_article.html', form=form, title=title)
+
+
+# Edit article route
+@app.route('/users/articles/<string:article_id>/', methods=['GET', 'POST'])
+@is_logged_in
+def edit_article(article_id):
+    title = 'Edit Article'
+    form = ArticleForm(request.form)
+
+    # Get the article correponding to the passed article_id and fill the fields with the title and body
+    db_article = fs_articles_collection.document(article_id).get()
+    form.title.data = db_article.get("title")
+    form.body.data = db_article.get("body")
+
+    if request.method == 'POST' and form.validate():
+        title = request.form['title']
+        body = request.form['body']
+
+        # Update the article document and store it to the articles collection
+        db_article = fs_articles_collection.document(article_id)
+        db_article.update({
+            'title': title,
+            'body': body
+        })
+
+        # Display flash message
+        flash('Your article has been updated!', 'success')
+        # Redirect to the login page
+        return redirect(url_for('dashboard'))
+    return render_template('edit_article.html', form=form, title=title)
 
 
 if __name__ == '__main__':
