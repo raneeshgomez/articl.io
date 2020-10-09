@@ -8,6 +8,7 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 import datetime
 import uuid
+import os
 
 from data import Articles
 from registerform import RegisterForm
@@ -17,7 +18,7 @@ from registerform import RegisterForm
 # The first argument is the name of the module or package
 # This is needed so that Flask knows where to look for templates and static assets
 app = Flask(__name__)
-app.secret_key = '4rticl1os3cr3t'
+app.secret_key = os.urandom(32)
 
 # Use a service account
 cred = credentials.Certificate('utils/articlio-flask-app-bfd09e671a1a.json')
