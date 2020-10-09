@@ -1,5 +1,5 @@
 # Virtual Environement
 venv/
-
+__pycache__
 # IDE Config
 .idea/
